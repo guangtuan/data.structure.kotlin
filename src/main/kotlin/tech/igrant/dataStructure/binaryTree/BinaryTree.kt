@@ -1,31 +1,31 @@
 package tech.igrant.dataStructure.binaryTree
 
-class BinaryTree<T>(override val root: BinaryTreeNode<T>?) : Contract<T> {
+class BinaryTree<T>(override val root: Node<T>?) : Contract<T> {
 
-    private fun getHeight(level: Int, node: BinaryTreeNode<T>): Int {
+    private fun getHeight(level: Int, node: Node<T>): Int {
         node.lc?.let {
             node.rc?.let {
-                val leftHeight = getHeight(level + 1, node.lc)
-                val rightHeight = getHeight(level + 1, node.rc)
+                val leftHeight = getHeight(level + 1, it@node.lc)
+                val rightHeight = getHeight(level + 1, it@node.rc)
                 return Math.max(leftHeight, rightHeight)
             }
-            return getHeight(level + 1, node.lc)
+            return getHeight(level + 1, it@node.lc)
         }
         node.rc?.let {
-            return getHeight(level + 1, node.rc)
+            return getHeight(level + 1, it)
         }
         return level
     }
 
-    private fun getSize(size: Int, root: BinaryTreeNode<T>): Int {
+    private fun getSize(size: Int, root: Node<T>): Int {
         root.lc?.let {
             root.rc?.let {
-                return size + getSize(1, root.lc) + getSize(1, root.rc)
+                return size + getSize(1, it@root.lc) + getSize(1, it@root.rc)
             }
-            return size + getSize(1, root.lc)
+            return size + getSize(1, it@root.lc)
         }
         root.rc?.let {
-            return size + getSize(1, root.rc)
+            return size + getSize(1, it@root.rc)
         }
         return size
     }
@@ -47,18 +47,6 @@ class BinaryTree<T>(override val root: BinaryTreeNode<T>?) : Contract<T> {
     override val isEmpty: Boolean
         get() = this.root == null
 
-    override fun getParent(node: BinaryTreeNode<T>): BinaryTreeNode<T>? {
-        return null
-    }
-
-    override fun getLeftChild(node: BinaryTreeNode<T>): BinaryTreeNode<T>? {
-        return null
-    }
-
-    override fun getRightChild(node: BinaryTreeNode<T>): BinaryTreeNode<T>? {
-        return null
-    }
-
     override fun insert(item: T): Boolean {
         return false
     }
@@ -67,24 +55,78 @@ class BinaryTree<T>(override val root: BinaryTreeNode<T>?) : Contract<T> {
         return false
     }
 
-    override fun exists(item: T): BinaryTreeNode<T>? {
+    override fun exists(item: T): Node<T>? {
         return null
     }
 
-    override fun preOrder(treeNodeVisitor: TreeNodeVisitor<T>) {
-
+    private fun preOrderWalk(root: Node<T>, treeNodeVisitor: TreeNodeVisitor<T>) {
+        treeNodeVisitor.visit(root)
+        root.lc?.let {
+            preOrderWalk(it, treeNodeVisitor)
+        }
+        root.rc?.let {
+            preOrderWalk(it, treeNodeVisitor)
+        }
     }
 
-    override fun inOrder(treeNodeVisitor: TreeNodeVisitor<T>) {
-
+    override fun preOrderTraversal(treeNodeVisitor: TreeNodeVisitor<T>) {
+        this.root?.let {
+            preOrderWalk(it, treeNodeVisitor)
+        }
     }
 
-    override fun postOrder(treeNodeVisitor: TreeNodeVisitor<T>) {
-
+    private fun inOrderWalk(root: Node<T>, treeNodeVisitor: TreeNodeVisitor<T>) {
+        root.lc?.let {
+            inOrderWalk(it, treeNodeVisitor)
+        }
+        treeNodeVisitor.visit(root)
+        root.rc?.let {
+            inOrderWalk(it, treeNodeVisitor)
+        }
     }
 
-    override fun levelOrder(treeNodeVisitor: TreeNodeVisitor<T>) {
+    override fun inOrderTraversal(treeNodeVisitor: TreeNodeVisitor<T>) {
+        this.root?.let {
+            inOrderWalk(it, treeNodeVisitor)
+        }
+    }
 
+    private fun postOrderWalk(root: Node<T>, treeNodeVisitor: TreeNodeVisitor<T>) {
+        root.lc?.let {
+            postOrderWalk(it, treeNodeVisitor)
+        }
+        root.rc?.let {
+            postOrderWalk(it, treeNodeVisitor)
+        }
+        treeNodeVisitor.visit(root)
+    }
+
+    override fun postOrderTraversal(treeNodeVisitor: TreeNodeVisitor<T>) {
+        this.root?.let {
+            postOrderWalk(it, treeNodeVisitor)
+        }
+    }
+
+    private fun levelOrderWalk(list: ArrayList<Node<T>>, treeNodeVisitor: TreeNodeVisitor<T>) {
+        val nextList = arrayListOf<Node<T>>()
+        list.forEach {
+            treeNodeVisitor.visit(it)
+            it.lc?.let {
+                nextList.add(it)
+            }
+            it.rc?.let {
+                nextList.add(it)
+            }
+        }
+        if (nextList.size != 0) {
+            levelOrderWalk(nextList, treeNodeVisitor)
+        }
+    }
+
+    override fun levelOrderTraversal(treeNodeVisitor: TreeNodeVisitor<T>) {
+        this.root?.let {
+            levelOrderWalk(arrayListOf(it), treeNodeVisitor)
+        }
     }
 
 }
