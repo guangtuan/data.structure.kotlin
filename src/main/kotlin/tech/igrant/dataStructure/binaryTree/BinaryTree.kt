@@ -1,15 +1,17 @@
 package tech.igrant.dataStructure.binaryTree
 
+import java.util.*
+
 class BinaryTree<T>(override val root: Node<T>?) : Contract<T> {
 
     private fun getHeight(level: Int, node: Node<T>): Int {
         node.lc?.let {
             node.rc?.let {
-                val leftHeight = getHeight(level + 1, it@node.lc)
-                val rightHeight = getHeight(level + 1, it@node.rc)
+                val leftHeight = getHeight(level + 1, node.lc)
+                val rightHeight = getHeight(level + 1, node.rc)
                 return Math.max(leftHeight, rightHeight)
             }
-            return getHeight(level + 1, it@node.lc)
+            return getHeight(level + 1, node.lc)
         }
         node.rc?.let {
             return getHeight(level + 1, it)
@@ -20,12 +22,12 @@ class BinaryTree<T>(override val root: Node<T>?) : Contract<T> {
     private fun getSize(size: Int, root: Node<T>): Int {
         root.lc?.let {
             root.rc?.let {
-                return size + getSize(1, it@root.lc) + getSize(1, it@root.rc)
+                return size + getSize(1, root.lc) + getSize(1, root.rc)
             }
-            return size + getSize(1, it@root.lc)
+            return size + getSize(1, root.lc)
         }
         root.rc?.let {
-            return size + getSize(1, it@root.rc)
+            return size + getSize(1, root.rc)
         }
         return size
     }
@@ -46,18 +48,6 @@ class BinaryTree<T>(override val root: Node<T>?) : Contract<T> {
 
     override val isEmpty: Boolean
         get() = this.root == null
-
-    override fun insert(item: T): Boolean {
-        return false
-    }
-
-    override fun remove(item: T): Boolean {
-        return false
-    }
-
-    override fun exists(item: T): Node<T>? {
-        return null
-    }
 
     private fun preOrderWalk(root: Node<T>, treeNodeVisitor: TreeNodeVisitor<T>) {
         treeNodeVisitor.visit(root)
@@ -126,6 +116,24 @@ class BinaryTree<T>(override val root: Node<T>?) : Contract<T> {
     override fun levelOrderTraversal(treeNodeVisitor: TreeNodeVisitor<T>) {
         this.root?.let {
             levelOrderWalk(arrayListOf(it), treeNodeVisitor)
+        }
+    }
+
+    override fun inOrderWithoutRecursive(treeNodeVisitor: TreeNodeVisitor<T>) {
+        val stack = Stack<Node<T>>()
+        var current = this.root
+        while (true) {
+            while (current != null) {
+                stack.push(current)
+                current = current.lc
+            }
+            if (stack.isNotEmpty()) {
+                val pop = stack.pop()
+                treeNodeVisitor.visit(pop)
+                current = pop.rc
+            } else {
+                break
+            }
         }
     }
 

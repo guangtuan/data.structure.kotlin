@@ -14,9 +14,8 @@ class BinaryTreeTest {
             lc = Node(
                 data = 2,
                 lc = Node(
-                    data = 3,
-                    lc = null,
-                    rc = null),
+                    data = 3
+                ),
                 rc = null
             ),
             rc = Node(
@@ -28,9 +27,7 @@ class BinaryTreeTest {
                     rc = Node(
                         data = 7,
                         lc = Node(
-                            data = 10,
-                            lc = null,
-                            rc = null
+                            data = 10
                         ),
                         rc = null
                     )
@@ -49,9 +46,8 @@ class BinaryTreeTest {
             lc = Node(
                 data = 2,
                 lc = Node(
-                    data = 3,
-                    lc = null,
-                    rc = null),
+                    data = 3
+                ),
                 rc = null
             ),
             rc = Node(
@@ -63,9 +59,7 @@ class BinaryTreeTest {
                     rc = Node(
                         data = 7,
                         lc = Node(
-                            data = 10,
-                            lc = null,
-                            rc = null
+                            data = 10
                         ),
                         rc = null
                     )
@@ -81,9 +75,7 @@ class BinaryTreeTest {
 
         assert(!BinaryTree(
             Node(
-                data = 1,
-                lc = null,
-                rc = null
+                data = 1
             )
         ).isEmpty)
     }
@@ -134,7 +126,7 @@ class BinaryTreeTest {
 
     @Test
     fun inOrderTraversal() {
-        val collector = object: TreeNodeVisitor<Int> {
+        val collector = object : TreeNodeVisitor<Int> {
             val arr = arrayListOf<Int>()
             override fun visit(t: Node<Int>) {
                 arr.add(t.data)
@@ -169,8 +161,42 @@ class BinaryTreeTest {
     }
 
     @Test
+    fun inOrderTraversalWithoutRecursive() {
+        val collector = object : TreeNodeVisitor<String> {
+            val arr = arrayListOf<String>()
+            override fun visit(t: Node<String>) {
+                arr.add(t.data)
+            }
+        }
+        val tree = BinaryTree(Node(
+            data = "A",
+            lc = Node(
+                data = "B",
+                lc = Node(
+                    data = "D"
+                ),
+                rc = Node(
+                    data = "E",
+                    lc = Node(
+                        data = "F"
+                    ),
+                    rc = null
+                )
+            ),
+            rc = Node(
+                data = "C"
+            )
+        ))
+        tree.inOrderWithoutRecursive(collector)
+        val expectedResult = arrayListOf("D", "B", "F", "E", "A", "C")
+        for ((index, value) in expectedResult.withIndex()) {
+            Assert.assertEquals(value, collector.arr[index])
+        }
+    }
+
+    @Test
     fun postOrderTraversal() {
-        val collector = object: TreeNodeVisitor<Int> {
+        val collector = object : TreeNodeVisitor<Int> {
             val arr = arrayListOf<Int>()
             override fun visit(t: Node<Int>) {
                 arr.add(t.data)
@@ -206,7 +232,7 @@ class BinaryTreeTest {
 
     @Test
     fun levelOrderTraversal() {
-        val collector = object: TreeNodeVisitor<Int> {
+        val collector = object : TreeNodeVisitor<Int> {
             val arr = arrayListOf<Int>()
             override fun visit(t: Node<Int>) {
                 arr.add(t.data)
