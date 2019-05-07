@@ -32,7 +32,7 @@ class LinkedList<T>(var head: Node<T>?) : Contract<T> {
             cursor?.let {
                 it.next?.let { it1 ->
                     if (it1.value == value) {
-                        return it;
+                        return it
                     }
                     cursor = it1
                 }
