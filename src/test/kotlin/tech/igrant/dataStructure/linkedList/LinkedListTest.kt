@@ -30,11 +30,11 @@ class LinkedListTest {
     fun remove() {
         val head = Node(1, Node(2, Node(3, Node(4, null))))
         val list = LinkedList(head)
-        assertEquals(list.remove(3)?.value, 3);
-        assertEquals(list.toString(), "124");
-        assertEquals(list.remove(4)?.value, 4);
-        assertEquals(list.toString(), "12");
-        assertNull(list.remove(5));
+        assertEquals(3, list.remove(3)?.value)
+        assertEquals("124", list.toString())
+        assertNull(list.remove(5))
+        assertEquals(1, list.remove(1)?.value)
+        assertEquals("24", list.toString())
     }
 
 }
