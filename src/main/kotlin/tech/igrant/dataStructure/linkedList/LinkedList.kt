@@ -1,5 +1,7 @@
 package tech.igrant.dataStructure.linkedList
 
+import java.util.concurrent.ScheduledExecutorService
+
 class LinkedList<T>(var head: Node<T>?) : Contract<T> {
 
     override fun search(value: T): Node<T>? {
@@ -73,5 +75,27 @@ class LinkedList<T>(var head: Node<T>?) : Contract<T> {
             cursor = cursor.next
         }
         return toString
+    }
+
+    override fun cycle(): Boolean {
+        var slow :Node<T>?
+        var fast: Node<T>?
+        if (head?.next == null) {
+            return false
+        }
+        slow = head
+        fast = head?.next
+        while (slow != fast) {
+            if (fast?.next == null) {
+                return false
+            }
+            slow = slow?.next
+            fast = fast.next?.next
+        }
+        return true
+    }
+
+    override fun rotate() {
+
     }
 }
