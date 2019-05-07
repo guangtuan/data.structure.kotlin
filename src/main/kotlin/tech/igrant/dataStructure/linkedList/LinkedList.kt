@@ -1,8 +1,6 @@
 package tech.igrant.dataStructure.linkedList
 
-import java.util.concurrent.ScheduledExecutorService
-
-class LinkedList<T>(var head: Node<T>?) : Contract<T> {
+class LinkedList<T>(private var head: Node<T>?) : Contract<T> {
 
     override fun search(value: T): Node<T>? {
         if (head?.value == value) {
@@ -95,7 +93,17 @@ class LinkedList<T>(var head: Node<T>?) : Contract<T> {
         return true
     }
 
-    override fun rotate() {
-
+    override fun reverse() {
+        var curr: Node<T>?
+        var next: Node<T>?
+        var pre: Node<T>? = null
+        curr = head
+        while (curr != null) {
+            next = curr.next
+            curr.next = pre
+            pre = curr
+            curr = next
+        }
+        head = pre
     }
 }

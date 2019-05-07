@@ -56,4 +56,14 @@ class LinkedListTest {
         assertFalse(list2.cycle())
     }
 
+    @Test
+    fun reverse() {
+        val head = Node(1, Node(2, Node(3, Node(4, null))))
+        val list = LinkedList(head)
+        list.reverse()
+        assertEquals("4321", list.toString())
+        list.reverse()
+        assertEquals("1234", list.toString())
+    }
+
 }
