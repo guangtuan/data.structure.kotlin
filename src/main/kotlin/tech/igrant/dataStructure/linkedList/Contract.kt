@@ -22,4 +22,14 @@ interface Contract<T> {
      */
     fun empty(): Boolean
 
+    /**
+     * return true if linkedList has a cycle in it
+     */
+    fun cycle(): Boolean
+
+    /**
+     * rotate a linkedList
+     */
+    fun rotate()
+
 }
