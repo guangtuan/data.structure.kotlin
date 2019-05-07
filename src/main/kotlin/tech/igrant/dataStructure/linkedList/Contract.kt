@@ -28,8 +28,8 @@ interface Contract<T> {
     fun cycle(): Boolean
 
     /**
-     * rotate a linkedList
+     * reverse a linkedList
      */
-    fun rotate()
+    fun reverse()
 
 }
