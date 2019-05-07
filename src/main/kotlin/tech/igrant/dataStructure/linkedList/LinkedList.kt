@@ -36,11 +36,22 @@ class LinkedList<T>(var head: Node<T>?) : Contract<T> {
                     }
                     cursor = it1
                 }
+            } ?: run {
+                return null
             }
         }
     }
 
     override fun remove(value: T): Node<T>? {
+        head?.let {
+            if (it.value == value) {
+                val ret = it
+                head = it.next
+                return ret
+            }
+        } ?: run {
+            return null
+        }
         val preOfToRemove = searchPre(value)
         var ret: Node<T>? = null
         preOfToRemove?.let {
