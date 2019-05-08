@@ -14,7 +14,7 @@ class TreeBuilderKtTest {
         list.add(0)
         list.add(5)
         list.add(9)
-        val tree = fromSortedArray(list)
+        val tree = fromSortedArray(list.toTypedArray())
         val collect = LinkedList<Int>()
         tree.inOrderTraversal(object : TreeNodeVisitor<Int> {
             override fun visit(t: Node<Int>) {

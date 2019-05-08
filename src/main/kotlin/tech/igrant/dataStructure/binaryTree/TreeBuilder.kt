@@ -1,12 +1,9 @@
 package tech.igrant.dataStructure.binaryTree
 
-import java.util.LinkedList
-
 /**
  * build a bst from a sorted list
  */
-fun fromSortedArray(sortedList: LinkedList<Int>): BinaryTree<Int> {
-    val sortedArray = sortedList.toTypedArray()
+fun fromSortedArray(sortedArray: Array<Int>): BinaryTree<Int> {
     val root = subTree(sortedArray, 0, sortedArray.size - 1)
     return BinaryTree(root)
 }
