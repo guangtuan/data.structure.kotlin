@@ -4,8 +4,7 @@ package tech.igrant.dataStructure.binaryTree
  * build a bst from a sorted list
  */
 fun fromSortedArray(sortedArray: Array<Int>): BinaryTree<Int> {
-    val root = subTree(sortedArray, 0, sortedArray.size - 1)
-    return BinaryTree(root)
+    return BinaryTree(subTree(sortedArray, 0, sortedArray.size - 1))
 }
 
 fun subTree(sortedArray: Array<Int>, left: Int, right: Int): Node<Int>? {
