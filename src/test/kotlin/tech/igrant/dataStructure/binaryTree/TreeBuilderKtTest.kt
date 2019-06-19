@@ -1,8 +1,8 @@
 package tech.igrant.dataStructure.binaryTree
 
-import org.junit.Assert
 import org.junit.Test
 import java.util.*
+import org.junit.Assert.assertArrayEquals
 
 class TreeBuilderKtTest {
 
@@ -23,7 +23,7 @@ class TreeBuilderKtTest {
                 collect.add(t.data)
             }
         })
-        Assert.assertArrayEquals(collect.toTypedArray(), list.toTypedArray())
+        assertArrayEquals(collect.toTypedArray(), list.toTypedArray())
     }
 
     @Test
@@ -37,7 +37,7 @@ class TreeBuilderKtTest {
                 collect.add(t.data)
             }
         })
-        Assert.assertArrayEquals(collect.toTypedArray(), list.toTypedArray())
+        assertArrayEquals(collect.toTypedArray(), list.toTypedArray())
     }
 
 
@@ -51,6 +51,27 @@ class TreeBuilderKtTest {
                 collect.add(t.data)
             }
         })
-        Assert.assertArrayEquals(collect.toTypedArray(), list.toTypedArray())
+        assertArrayEquals(collect.toTypedArray(), list.toTypedArray())
     }
+
+    @Test
+    fun buildFromPreOrderAndInOrder() {
+
+        val preOrder = arrayOf(1, 2, 4, 7, 3, 5, 6, 8)
+        val inOrder = arrayOf(4, 7, 2, 1, 5, 3, 8, 6)
+        val tree = buildFromPreOrderAndInOrder(preOrder, inOrder)
+
+        val collector = object : TreeNodeVisitor<Int> {
+            val arr = arrayListOf<Int>()
+            override fun visit(t: Node<Int>) {
+                arr.add(t.data)
+            }
+        }
+        tree.preOrderTraversal(collector)
+        assertArrayEquals(preOrder, collector.arr.toArray())
+        collector.arr.clear()
+        tree.inOrderTraversal(collector)
+        assertArrayEquals(inOrder, collector.arr.toArray())
+    }
+
 }
